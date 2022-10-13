@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace tech_test_payment_api.Models {
     public record Venda {
-        public Guid Id { get; init; }
+        public Guid IdVenda { get; init; }
         public Guid IdPedido { get; set; }
         public string Status { get; set; }
         public Vendedor Vendedor { get; set; }

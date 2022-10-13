@@ -14,10 +14,27 @@ namespace tech_test_payment_api.Controllers {
             _repository = new InMenVendasRepository();
         }
 
+        /// <summary>
+        /// Retorna todas as vendas
+        /// </summary>
+        /// <returns>object</returns>
         [HttpGet]
         public IEnumerable<Venda> GetVendas() {
             var vendas = _repository.GetVendas();
             return vendas;
+        }
+        /// <summary>
+        /// Busca a venda pelo seu id
+        /// </summary>
+        /// <param name="idVenda"></param>
+        /// <returns>Object or NotFound()</returns>
+        [HttpGet("{idVenda}")]
+        public ActionResult<Venda> GetVenda(Guid idVenda) {
+            var venda = _repository.GetVenda(idVenda);
+            if(venda is null) {
+                return NotFound();
+            }
+            return Ok(venda);
         }
     }
 }

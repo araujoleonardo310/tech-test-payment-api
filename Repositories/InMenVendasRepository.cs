@@ -8,27 +8,32 @@ namespace tech_test_payment_api.Repositories {
         private readonly List<Venda> vendas = new()
             {
             new Venda {
-                Id = Guid.NewGuid(),
+                IdVenda = Guid.NewGuid(),
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
                     Id = 25,
-                    Nome = "Leo",
+                    Nome = "Mariana",
                     Cpf = "604154154",
                     Email = "testes@email.com",
                     Telefone = "897448747"
                 },
                 DataVenda = DateTime.Today,
-                Produtos = new List<Produto>() { 
-                    new Produto { 
+                Produtos = new List<Produto>() {
+                    new Produto {
                         Descricao = "TV 40°",
                         QuantVenda = 1,
-                        PrecoUnitario = 2500.99M 
-                    } 
+                        PrecoUnitario = 2500.99M
+                    },
+                     new Produto {
+                        Descricao = "Escova Secadora Cadence Sublime 4x1 Branca - 127v",
+                        QuantVenda = 2,
+                        PrecoUnitario = 109.99M
+                    }
                 }
             },
             new Venda {
-                Id = Guid.NewGuid(),
+                IdVenda = Guid.NewGuid(),
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
@@ -39,16 +44,26 @@ namespace tech_test_payment_api.Repositories {
                     Telefone = "897448747"
                 },
                 DataVenda = DateTime.Today,
-                Produtos = new List<Produto>() { 
-                    new Produto { 
-                        Descricao = "",
+                Produtos = new List<Produto>() {
+                    new Produto {
+                        Descricao = "Refrigerador Electrolux Cycle Defrost 260 Litros Branco DC35A 220 Volts",
                         QuantVenda = 1,
-                        PrecoUnitario = 6949.21M 
-                    } 
+                        PrecoUnitario = 1885.30M
+                    },
+                    new Produto {
+                        Descricao = "Micro-ondas Electrolux MTD30",
+                        QuantVenda = 1,
+                        PrecoUnitario = 512.05M
+                    },
+                    new Produto {
+                        Descricao = "Micro-ondas Electrolux MTD30",
+                        QuantVenda = 1,
+                        PrecoUnitario = 512.05M
+                    }
                 }
             },
             new Venda {
-                Id = Guid.NewGuid(),
+                IdVenda = Guid.NewGuid(),
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
@@ -59,16 +74,21 @@ namespace tech_test_payment_api.Repositories {
                     Telefone = "897448747"
                 },
                 DataVenda = DateTime.Today,
-                Produtos = new List<Produto>() { 
-                    new Produto { 
+                Produtos = new List<Produto>() {
+                    new Produto {
                         Descricao = "Mesa",
                         QuantVenda = 1,
                         PrecoUnitario = 300.50M
-                    } 
+                    },
+                    new Produto {
+                        Descricao = "Smartphone Samsung Galaxy A03 64GB 4GB RAM Processador Octa Core 48MP + 2MP 5MP Tela Infinita de 6.5\" Dual Chip Android - Preto",
+                        QuantVenda = 1,
+                        PrecoUnitario = 779.99M
+                    }
                 }
             },
             new Venda {
-                Id = Guid.NewGuid(),
+                IdVenda = Guid.NewGuid(),
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
@@ -79,19 +99,24 @@ namespace tech_test_payment_api.Repositories {
                     Telefone = "897448747"
                 },
                 DataVenda = DateTime.Today,
-                Produtos = new List<Produto>() { 
-                    new Produto { 
-                        Descricao = "Mesa", 
+                Produtos = new List<Produto>() {
+                    new Produto {
+                        Descricao = "Mesa",
                         QuantVenda = 2,
-                        PrecoUnitario = 300.50M 
-                    } 
+                        PrecoUnitario = 300.50M
+                    }
                 }
             }
         };
 
+        // GET/vendas
         public IEnumerable<Venda> GetVendas() {
             return vendas;
         }
 
+        // GET/vendas/{idVenda}
+        public Venda GetVenda(Guid idVenda) {
+            return vendas.Where(v => v.IdVenda == idVenda).SingleOrDefault();
+        }
     }
 }
