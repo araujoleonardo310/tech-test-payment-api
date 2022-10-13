@@ -36,5 +36,16 @@ namespace tech_test_payment_api.Controllers {
             }
             return Ok(venda);
         }
+
+        /// <summary>
+        /// Busca de vendas por status
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns>object</returns>
+        [HttpGet("status/{status}")]
+        public IEnumerable<Venda> GetVendaStatus (string status) {
+            var vendas = _repository.GetVendasPorStatus(status);
+            return vendas;
+        }
     }
 }

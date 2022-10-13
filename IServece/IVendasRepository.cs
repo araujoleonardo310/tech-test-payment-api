@@ -6,5 +6,6 @@ namespace tech_test_payment_api.Repositories {
     public interface IVendasRepository {
         Venda GetVenda(Guid idVenda);
         IEnumerable<Venda> GetVendas();
+        IEnumerable<Venda> GetVendasPorStatus(string status);
     }
 }
