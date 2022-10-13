@@ -6,6 +6,7 @@ using tech_test_payment_api.Dtos;
 using tech_test_payment_api.Extensions;
 using tech_test_payment_api.Models;
 using tech_test_payment_api.Repositories;
+using tech_test_payment_api.Validations;
 
 namespace tech_test_payment_api.Controllers {
     [ApiController]
@@ -80,6 +81,56 @@ namespace tech_test_payment_api.Controllers {
                 };
             _repository.AdicionarVenda(newVenda);
             return CreatedAtAction(nameof(GetVenda), new { IdVenda = newVenda.IdVenda }, newVenda.AsDto());
+        }
+
+        [HttpPut("{idVenda}")]
+        public ActionResult AtualizarStatus(Guid idVenda, AtualizarVendaDto newStatusVenda) {
+
+            var vendaIndex = _repository.GetVenda(idVenda);
+
+            if(vendaIndex is null) {
+                return NotFound();
+            }
+
+            switch(vendaIndex.Status.ToLower()) {
+
+            case "aguardando pagamento":
+
+                if(ValidationStatus.IsAguardandoPag(vendaIndex, newStatusVenda.Status)) {
+                    Venda updateVenda = vendaIndex with {
+                        Status = newStatusVenda.Status
+                    };
+                    _repository.AtualizarStatusVenda(updateVenda);
+                }
+
+                break;
+
+            case "Pagamento aprovado":
+                if(ValidationStatus.IsPagAprovado(vendaIndex, newStatusVenda.Status)) {
+                    Venda updateVenda = vendaIndex with {
+                        Status = newStatusVenda.Status
+                    };
+                    _repository.AtualizarStatusVenda(updateVenda);
+
+                }
+
+                break;
+            case "enviado para transportador":
+                if(ValidationStatus.IsEnviadoTransp(vendaIndex, newStatusVenda.Status)) {
+                    Venda updateVenda = vendaIndex with {
+                        Status = newStatusVenda.Status
+                    };
+                    _repository.AtualizarStatusVenda(updateVenda);
+
+                }
+
+                break;
+
+            default:
+                break;
+            }
+
+            return NoContent();
         }
     }
 }

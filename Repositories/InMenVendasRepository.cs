@@ -129,5 +129,10 @@ namespace tech_test_payment_api.Repositories {
         public void AdicionarVenda(Venda venda) {
             vendas.Add(venda);
         }
+
+        public void AtualizarStatusVenda(Venda newStatusVenda) {
+            var vendaIndex = vendas.FindIndex(v => v.IdVenda == newStatusVenda.IdVenda);
+            vendas[vendaIndex] = newStatusVenda;
+        }
     }
 }
