@@ -92,6 +92,7 @@ namespace tech_test_payment_api.Controllers {
                 return NotFound();
             }
 
+            // Atualizar status de acordo com status atual
             switch(vendaIndex.Status.ToLower()) {
 
             case "aguardando pagamento":
@@ -105,7 +106,7 @@ namespace tech_test_payment_api.Controllers {
 
                 break;
 
-            case "Pagamento aprovado":
+            case "pagamento aprovado":
                 if(ValidationStatus.IsPagAprovado(vendaIndex, newStatusVenda.Status)) {
                     Venda updateVenda = vendaIndex with {
                         Status = newStatusVenda.Status

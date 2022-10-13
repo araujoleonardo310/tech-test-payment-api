@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace tech_test_payment_api.Models {
     public class Produto {
-        [Required]
+        [Required(ErrorMessage = "Descrição é obrigatório.")]
         public string Descricao { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Quantidade é obrigatório.")]
         [Range(1, 100)]
         public int QuantVenda { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Preço Unitário é obrigatório.")]
         [Range(0.50, 50000)]
         public decimal PrecoUnitario { get; set; }
     }
