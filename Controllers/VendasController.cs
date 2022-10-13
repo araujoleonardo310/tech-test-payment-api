@@ -8,10 +8,10 @@ namespace tech_test_payment_api.Controllers {
     [ApiController]
     [Route("[controller]")]
     public class VendasController : ControllerBase {
-        private readonly InMenVendasRepository _repository;
+        private readonly IVendasRepository _repository;
 
-        public VendasController() {
-            _repository = new InMenVendasRepository();
+        public VendasController(IVendasRepository vendasRepository) {
+            this._repository = vendasRepository;
         }
 
         /// <summary>

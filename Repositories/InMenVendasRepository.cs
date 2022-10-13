@@ -4,7 +4,8 @@ using System.Linq;
 using tech_test_payment_api.Models;
 
 namespace tech_test_payment_api.Repositories {
-    public class InMenVendasRepository {
+    public class InMenVendasRepository : IVendasRepository {
+
         private readonly List<Venda> vendas = new()
             {
             new Venda {
