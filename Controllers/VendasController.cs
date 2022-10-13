@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using tech_test_payment_api.Dtos;
+using tech_test_payment_api.Extensions;
 using tech_test_payment_api.Models;
 using tech_test_payment_api.Repositories;
 
@@ -19,8 +22,8 @@ namespace tech_test_payment_api.Controllers {
         /// </summary>
         /// <returns>object</returns>
         [HttpGet]
-        public IEnumerable<Venda> GetVendas() {
-            var vendas = _repository.GetVendas();
+        public IEnumerable<VendaDto> GetVendas() {
+            var vendas = _repository.GetVendas().Select(v => v.AsDto());
             return vendas;
         }
         /// <summary>
@@ -29,8 +32,8 @@ namespace tech_test_payment_api.Controllers {
         /// <param name="idVenda"></param>
         /// <returns>Object or NotFound()</returns>
         [HttpGet("{idVenda}")]
-        public ActionResult<Venda> GetVenda(Guid idVenda) {
-            var venda = _repository.GetVenda(idVenda);
+        public ActionResult<VendaDto> GetVenda(Guid idVenda) {
+            var venda = _repository.GetVenda(idVenda).AsDto();
             if(venda is null) {
                 return NotFound();
             }

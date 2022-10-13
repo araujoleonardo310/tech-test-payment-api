@@ -120,7 +120,7 @@ namespace tech_test_payment_api.Repositories {
             return vendas.Where(v => v.IdVenda == idVenda).SingleOrDefault();
         }
 
-        // GET/vendas/{status}
+        // GET/vendas/status/{status}
         public IEnumerable<Venda> GetVendasPorStatus(string status) {
             return vendas.Where(v => v.Status == status);
         }
