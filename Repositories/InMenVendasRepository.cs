@@ -9,7 +9,7 @@ namespace tech_test_payment_api.Repositories {
             {
             new Venda {
                 Id = Guid.NewGuid(),
-                IdPedido = 101,
+                IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
                     Id = 25,
@@ -23,7 +23,7 @@ namespace tech_test_payment_api.Repositories {
             },
             new Venda {
                 Id = Guid.NewGuid(),
-                IdPedido = 101,
+                IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
                     Id = 25,
@@ -37,7 +37,7 @@ namespace tech_test_payment_api.Repositories {
             },
             new Venda {
                 Id = Guid.NewGuid(),
-                IdPedido = 101,
+                IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
                     Id = 25,
@@ -51,7 +51,7 @@ namespace tech_test_payment_api.Repositories {
             },
             new Venda {
                 Id = Guid.NewGuid(),
-                IdPedido = 101,
+                IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
                     Id = 25,
@@ -63,16 +63,11 @@ namespace tech_test_payment_api.Repositories {
                 DataVenda = DateTime.Today,
                 Produtos = new List<Produto>() { new Produto { Descricao = "Mesa", Preco = 6949.21M } }
             }
-
-
         };
 
         public IEnumerable<Venda> GetVendas() {
             return vendas;
         }
 
-        public Venda GetVenda(Guid Id) {
-            return vendas.Where(venda => venda.Id == Id).SingleOrDefault();
-        }
     }
 }
