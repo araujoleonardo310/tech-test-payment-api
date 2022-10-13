@@ -19,7 +19,13 @@ namespace tech_test_payment_api.Repositories {
                     Telefone = "897448747"
                 },
                 DataVenda = DateTime.Today,
-                Produtos = new List<Produto>() { new Produto { Descricao = "Mesa", Preco = 6949.21M } }
+                Produtos = new List<Produto>() { 
+                    new Produto { 
+                        Descricao = "TV 40°",
+                        QuantVenda = 1,
+                        PrecoUnitario = 2500.99M 
+                    } 
+                }
             },
             new Venda {
                 Id = Guid.NewGuid(),
@@ -33,7 +39,13 @@ namespace tech_test_payment_api.Repositories {
                     Telefone = "897448747"
                 },
                 DataVenda = DateTime.Today,
-                Produtos = new List<Produto>() { new Produto { Descricao = "Mesa", Preco = 6949.21M } }
+                Produtos = new List<Produto>() { 
+                    new Produto { 
+                        Descricao = "",
+                        QuantVenda = 1,
+                        PrecoUnitario = 6949.21M 
+                    } 
+                }
             },
             new Venda {
                 Id = Guid.NewGuid(),
@@ -47,7 +59,13 @@ namespace tech_test_payment_api.Repositories {
                     Telefone = "897448747"
                 },
                 DataVenda = DateTime.Today,
-                Produtos = new List<Produto>() { new Produto { Descricao = "Mesa", Preco = 6949.21M } }
+                Produtos = new List<Produto>() { 
+                    new Produto { 
+                        Descricao = "Mesa",
+                        QuantVenda = 1,
+                        PrecoUnitario = 300.50M
+                    } 
+                }
             },
             new Venda {
                 Id = Guid.NewGuid(),
@@ -61,7 +79,13 @@ namespace tech_test_payment_api.Repositories {
                     Telefone = "897448747"
                 },
                 DataVenda = DateTime.Today,
-                Produtos = new List<Produto>() { new Produto { Descricao = "Mesa", Preco = 6949.21M } }
+                Produtos = new List<Produto>() { 
+                    new Produto { 
+                        Descricao = "Mesa", 
+                        QuantVenda = 2,
+                        PrecoUnitario = 300.50M 
+                    } 
+                }
             }
         };
 
