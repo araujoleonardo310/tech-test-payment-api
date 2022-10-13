@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace tech_test_payment_api.Models {
     public class Vendedor {
         public int Id { get; set; }

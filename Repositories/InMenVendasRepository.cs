@@ -13,7 +13,7 @@ namespace tech_test_payment_api.Repositories {
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
-                    Id = 25,
+                    Id = 1,
                     Nome = "Mariana",
                     Cpf = "604154154",
                     Email = "testes@email.com",
@@ -38,7 +38,7 @@ namespace tech_test_payment_api.Repositories {
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
-                    Id = 25,
+                    Id = 2,
                     Nome = "Carlos",
                     Cpf = "604154154",
                     Email = "testes@email.com",
@@ -68,7 +68,7 @@ namespace tech_test_payment_api.Repositories {
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
-                    Id = 25,
+                    Id = 3,
                     Nome = "Pedro",
                     Cpf = "604154154",
                     Email = "testes@email.com",
@@ -93,7 +93,7 @@ namespace tech_test_payment_api.Repositories {
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
-                    Id = 25,
+                    Id = 4,
                     Nome = "Leo",
                     Cpf = "604154154",
                     Email = "testes@email.com",
@@ -123,6 +123,11 @@ namespace tech_test_payment_api.Repositories {
         // GET/vendas/status/{status}
         public IEnumerable<Venda> GetVendasPorStatus(string status) {
             return vendas.Where(v => v.Status == status);
+        }
+
+        // POST/vendas/{venda}
+        public void AdicionarVenda(Venda venda) {
+            vendas.Add(venda);
         }
     }
 }

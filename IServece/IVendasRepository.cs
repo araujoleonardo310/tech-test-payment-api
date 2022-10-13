@@ -7,5 +7,6 @@ namespace tech_test_payment_api.Repositories {
         Venda GetVenda(Guid idVenda);
         IEnumerable<Venda> GetVendas();
         IEnumerable<Venda> GetVendasPorStatus(string status);
+        void AdicionarVenda(Venda venda);
     }
 }

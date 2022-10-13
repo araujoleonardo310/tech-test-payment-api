@@ -46,9 +46,40 @@ namespace tech_test_payment_api.Controllers {
         /// <param name="status"></param>
         /// <returns>object</returns>
         [HttpGet("status/{status}")]
-        public IEnumerable<Venda> GetVendaStatus (string status) {
+        public IEnumerable<Venda> GetVendaStatus(string status) {
             var vendas = _repository.GetVendasPorStatus(status);
             return vendas;
+        }
+
+        [HttpPost]
+        public ActionResult<VendaDto> AddVenda(AdicionarVendaDto vendaDto) {
+
+            var ultimoRegistroDeVenda = _repository.GetVendas().Last().AsDto();
+
+            Venda newVenda =
+                new() {
+                    IdVenda = Guid.NewGuid(),
+                    IdPedido = Guid.NewGuid(),
+                    Status = "Aguardando pagamento",
+                    Vendedor = new() {
+                        Id = ultimoRegistroDeVenda.Vendedor.Id + 1,
+                        Nome = vendaDto.Vendedor.Nome,
+                        Cpf = vendaDto.Vendedor.Cpf,
+                        Email = vendaDto.Vendedor.Email,
+                        Telefone = vendaDto.Vendedor.Telefone
+                    },
+                    DataVenda = DateTime.Today,
+                    Produtos = new List<Produto>() {
+                        new Produto {
+                            Descricao = vendaDto.Produtos[0].Descricao,
+                            QuantVenda = vendaDto.Produtos[0].QuantVenda,
+                            PrecoUnitario = vendaDto.Produtos[0].PrecoUnitario
+                        }
+                    }
+
+                };
+            _repository.AdicionarVenda(newVenda);
+            return CreatedAtAction(nameof(GetVenda), new { IdVenda = newVenda.IdVenda }, newVenda.AsDto());
         }
     }
 }
