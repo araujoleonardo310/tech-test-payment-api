@@ -12,6 +12,5 @@ namespace tech_test_payment_api.Repositories {
         void AtualizarProdutos(Venda newVenda);
         void AtualizarVendedor(Venda venda);
         void DeletarVenda(Guid IdVenda);
-
     }
 }

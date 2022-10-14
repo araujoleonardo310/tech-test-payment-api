@@ -120,7 +120,7 @@ namespace tech_test_payment_api.Repositories {
             return vendas.Where(v => v.IdVenda == idVenda).SingleOrDefault();
         }
 
-        // GET/vendas/status/{status}
+        // GET/vendas/{status}
         public IEnumerable<Venda> GetVendasPorStatus(string status) {
             return vendas.Where(v => v.Status == status);
         }
@@ -130,7 +130,7 @@ namespace tech_test_payment_api.Repositories {
             vendas.Add(venda);
         }
 
-        // PUT/vendas/status/status
+        // PUT/vendas/Status/{status}
         public void AtualizarStatusVenda(Venda newStatusVenda) {
             var vendaIndex = vendas.FindIndex(v => v.IdVenda == newStatusVenda.IdVenda);
             vendas[vendaIndex] = newStatusVenda;
@@ -140,15 +140,15 @@ namespace tech_test_payment_api.Repositories {
         public void DeletarVenda(Guid IdVenda) {
             var vendaIndex = vendas.FindIndex(v => v.IdVenda == IdVenda);
             vendas.RemoveAt(vendaIndex);
-
         }
 
-        // PUT/vendas/{idVenda}
+        // PUT/vendas/Produtos/{idVenda}
         public void AtualizarProdutos(Venda newVenda) {
             var vendaIndex = vendas.FindIndex(v => v.IdVenda == newVenda.IdVenda);
             vendas[vendaIndex] = newVenda;
         }
 
+        // PUT/vendas/Vendedor/{idVenda}
         public void AtualizarVendedor(Venda venda) {
             var vendaIndex = vendas.FindIndex(v => v.IdVenda == venda.IdVenda);
             vendas[vendaIndex] = venda;

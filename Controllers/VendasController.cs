@@ -12,6 +12,7 @@ namespace tech_test_payment_api.Controllers {
     [ApiController]
     [Route("[controller]")]
     public class VendasController : ControllerBase {
+
         private readonly IVendasRepository _repository;
 
         public VendasController(IVendasRepository vendasRepository) {
@@ -19,19 +20,20 @@ namespace tech_test_payment_api.Controllers {
         }
 
         /// <summary>
-        /// Retorna todas as vendas
+        /// Retorna todas as vendas.
         /// </summary>
-        /// <returns>object</returns>
+        /// <returns>string de status Http</returns>
         [HttpGet]
         public IEnumerable<VendaDto> GetVendas() {
             var vendas = _repository.GetVendas().Select(v => v.AsDto());
             return vendas;
         }
+
         /// <summary>
         /// Busca a venda pelo seu id
         /// </summary>
         /// <param name="idVenda"></param>
-        /// <returns>Object or NotFound()</returns>
+        /// <returns>string de status Http</returns>
         [HttpGet("venda/{idVenda}")]
         public ActionResult<VendaDto> GetVenda(Guid idVenda) {
             var venda = _repository.GetVenda(idVenda).AsDto();
@@ -45,15 +47,28 @@ namespace tech_test_payment_api.Controllers {
         /// Busca de vendas por status
         /// </summary>
         /// <param name="status"></param>
-        /// <returns>object</returns>
+        /// <returns>string de status Http</returns>
         [HttpGet("vendas-status/{status}")]
         public IEnumerable<Venda> GetVendaStatus(string status) {
             var vendas = _repository.GetVendasPorStatus(status);
             return vendas;
         }
 
+        /// <summary>
+        /// Adiciona nova venda a API.
+        /// </summary>
+        /// <param name="vendaDto"></param>
+        /// <returns>string de status Http</returns>
         [HttpPost("venda/adicionar")]
         public ActionResult<VendaDto> AdicionarVenda(AdicionarVendaDto vendaDto) {
+
+            if(!ValidationCPF.IsCPFValido(vendaDto.Vendedor.Cpf)) {
+
+                var httpResp = Content($"Vendedor {vendaDto.Vendedor.Nome} está com CPF incorreto.");
+                httpResp.StatusCode = 400;
+
+                return httpResp;
+            }
 
             // buscar ultimo registro para calcular novo ID ao vendedor
             var ultimoRegistroDeVenda = _repository.GetVendas().Last().AsDto();
@@ -78,7 +93,13 @@ namespace tech_test_payment_api.Controllers {
             return CreatedAtAction(nameof(GetVenda), new { IdVenda = newVenda.IdVenda }, newVenda.AsDto());
         }
 
-        [HttpPut("venda/atualizar-status/{idVenda}")]
+        /// <summary>
+        /// Atualiza status de uma venda.
+        /// </summary>
+        /// <param name="idVenda"></param>
+        /// <param name="newStatusVenda"></param>
+        /// <returns>string de status Http</returns>
+        [HttpPut("venda/atualizar-status/{idVenda}")]        
         public ActionResult AtualizarStatus(Guid idVenda, AtualizarVendaDto newStatusVenda) {
 
             var vendaIndex = _repository.GetVenda(idVenda);
@@ -134,36 +155,14 @@ namespace tech_test_payment_api.Controllers {
             return httpResp;
         }
 
+        /// <summary>
+        /// Atualiza a lista de produtos de uma venda.
+        /// </summary>
+        /// <param name="idVenda"></param>
+        /// <param name="newProdutos"></param>
+        /// <returns>string de status Http</returns>
         [HttpPut("venda/atualizar-produtos/{idVenda}")]
         public ActionResult AtualizarProdutos(Guid idVenda, AtualizarProdutosDto newProdutos) {
-            var vendaIndex = _repository.GetVenda(idVenda);
-
-            if(vendaIndex is null) {
-                return NotFound();
-            }
-
-            var httpResp = Content($"Produtos de Venda {idVenda} atualizados com sucesso.");
-            httpResp.StatusCode = 200;
-
-            if(!ValidationProdutos.IsAguardandoPag(vendaIndex)) {
-                httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
-                httpResp.StatusCode = 500;            
-
-                return httpResp;
-            }
-
-            Venda vendaProdutos = vendaIndex with {
-                Produtos = newProdutos.Produtos
-            };
-            _repository.AtualizarStatusVenda(vendaProdutos);
-
-            
-
-            return httpResp;
-        }
-
-        [HttpPut("venda/atualizar-vendedor/{idVenda}")]
-        public ActionResult AtualizarVendedor(Guid idVenda, AtualizarVendedorDto vendedorDto) {
             var vendaIndex = _repository.GetVenda(idVenda);
 
             if(vendaIndex is null) {
@@ -181,6 +180,47 @@ namespace tech_test_payment_api.Controllers {
             }
 
             Venda vendaProdutos = vendaIndex with {
+                Produtos = newProdutos.Produtos
+            };
+            _repository.AtualizarStatusVenda(vendaProdutos);
+
+
+
+            return httpResp;
+        }
+
+        /// <summary>
+        /// Atualiza os dados de vendedor de uma venda.
+        /// </summary>
+        /// <param name="idVenda"></param>
+        /// <param name="vendedorDto"></param>
+        /// <returns>string de status Http</returns>
+        [HttpPut("venda/atualizar-vendedor/{idVenda}")]
+        public ActionResult AtualizarVendedor(Guid idVenda, AtualizarVendedorDto vendedorDto) {
+            var vendaIndex = _repository.GetVenda(idVenda);
+
+            if(vendaIndex is null) {
+                return NotFound();
+            }
+            var httpResp = Content($"Produtos de Venda {idVenda} atualizados com sucesso.");
+
+            if(!ValidationCPF.IsCPFValido(vendedorDto.vendedor.Cpf)) {
+                httpResp = Content($"Vendedor {vendedorDto.vendedor.Nome} está com CPF incorreto.");
+                httpResp.StatusCode = 400;
+
+                return httpResp;
+            }
+
+            httpResp.StatusCode = 200;
+
+            if(!ValidationProdutos.IsAguardandoPag(vendaIndex)) {
+                httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
+                httpResp.StatusCode = 500;
+
+                return httpResp;
+            }
+
+            Venda vendaProdutos = vendaIndex with {
                 Vendedor = vendedorDto.vendedor
             };
             _repository.AtualizarStatusVenda(vendaProdutos);
@@ -188,6 +228,11 @@ namespace tech_test_payment_api.Controllers {
             return httpResp;
         }
 
+        /// <summary>
+        /// Deleta uma venda.
+        /// </summary>
+        /// <param name="idVenda"></param>
+        /// <returns>string de status Http</returns>
         [HttpDelete("venda/deletar-venda/{idVenda}")]
         public ActionResult<Venda> DeletarVenda(Guid idVenda) {
             var vendaIndex = _repository.GetVenda(idVenda);
