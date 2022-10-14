@@ -162,6 +162,32 @@ namespace tech_test_payment_api.Controllers {
             return httpResp;
         }
 
+        [HttpPut("venda/atualizar-vendedor/{idVenda}")]
+        public ActionResult AtualizarVendedor(Guid idVenda, AtualizarVendedorDto vendedorDto) {
+            var vendaIndex = _repository.GetVenda(idVenda);
+
+            if(vendaIndex is null) {
+                return NotFound();
+            }
+
+            var httpResp = Content($"Produtos de Venda {idVenda} atualizados com sucesso.");
+            httpResp.StatusCode = 200;
+
+            if(!ValidationProdutos.IsAguardandoPag(vendaIndex)) {
+                httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
+                httpResp.StatusCode = 500;
+
+                return httpResp;
+            }
+
+            Venda vendaProdutos = vendaIndex with {
+                Vendedor = vendedorDto.vendedor
+            };
+            _repository.AtualizarStatusVenda(vendaProdutos);
+
+            return httpResp;
+        }
+
         [HttpDelete("venda/deletar-venda/{idVenda}")]
         public ActionResult<Venda> DeletarVenda(Guid idVenda) {
             var vendaIndex = _repository.GetVenda(idVenda);

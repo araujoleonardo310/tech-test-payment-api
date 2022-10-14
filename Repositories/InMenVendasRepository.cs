@@ -148,5 +148,10 @@ namespace tech_test_payment_api.Repositories {
             var vendaIndex = vendas.FindIndex(v => v.IdVenda == newVenda.IdVenda);
             vendas[vendaIndex] = newVenda;
         }
+
+        public void AtualizarVendedor(Venda venda) {
+            var vendaIndex = vendas.FindIndex(v => v.IdVenda == venda.IdVenda);
+            vendas[vendaIndex] = venda;
+        }
     }
 }

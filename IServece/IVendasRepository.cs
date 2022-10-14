@@ -10,6 +10,8 @@ namespace tech_test_payment_api.Repositories {
         void AdicionarVenda(Venda venda);
         void AtualizarStatusVenda(Venda newStatusVenda);
         void AtualizarProdutos(Venda newVenda);
+        void AtualizarVendedor(Venda venda);
         void DeletarVenda(Guid IdVenda);
+
     }
 }
