@@ -128,7 +128,10 @@ namespace tech_test_payment_api.Controllers {
                 break;
             }
 
-            return NoContent();
+            var httpResp = Content($"Venda {idVenda} atualizada com sucesso.");
+            httpResp.StatusCode = 200;
+
+            return httpResp;
         }
 
         [HttpDelete("{idVenda}")]
