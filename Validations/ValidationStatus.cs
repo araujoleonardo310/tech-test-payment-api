@@ -42,5 +42,16 @@ namespace tech_test_payment_api.Validations {
 
             return false;
         }
+
+        public static bool IsCancelado(Venda venda) {
+            if(String.Equals(venda.Status, "Cancelado", StringComparison.InvariantCultureIgnoreCase) 
+                ) {
+
+                return true;
+
+            }
+
+            return false;
+        }
     }
 }

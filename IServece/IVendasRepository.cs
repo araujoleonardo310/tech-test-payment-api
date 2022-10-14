@@ -9,5 +9,6 @@ namespace tech_test_payment_api.Repositories {
         IEnumerable<Venda> GetVendasPorStatus(string status);
         void AdicionarVenda(Venda venda);
         void AtualizarStatusVenda(Venda newStatusVenda);
+        void DeletarVenda(Guid IdVenda);
     }
 }

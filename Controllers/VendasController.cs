@@ -130,5 +130,26 @@ namespace tech_test_payment_api.Controllers {
 
             return NoContent();
         }
+
+        [HttpDelete("{idVenda}")]
+        public ActionResult<Venda> DeletarVenda(Guid idVenda) {
+            var vendaIndex = _repository.GetVenda(idVenda);
+            if(vendaIndex is null) {
+                return NotFound();
+            }
+
+            var httpResp = Content($"Venda {idVenda} deletada com sucesso.");
+            httpResp.StatusCode = 200;
+
+            if(!ValidationStatus.IsCancelado(vendaIndex)) {
+                httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
+                httpResp.StatusCode = 500;
+
+                return httpResp;
+            }
+
+            _repository.DeletarVenda(idVenda);
+            return httpResp;
+        }
     }
 }

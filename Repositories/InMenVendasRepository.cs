@@ -134,5 +134,11 @@ namespace tech_test_payment_api.Repositories {
             var vendaIndex = vendas.FindIndex(v => v.IdVenda == newStatusVenda.IdVenda);
             vendas[vendaIndex] = newStatusVenda;
         }
+
+        public void DeletarVenda(Guid IdVenda) {
+            var vendaIndex = vendas.FindIndex(v => v.IdVenda == IdVenda);
+            vendas.RemoveAt(vendaIndex);
+
+        }
     }
 }
