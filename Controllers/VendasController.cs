@@ -55,6 +55,7 @@ namespace tech_test_payment_api.Controllers {
         [HttpPost]
         public ActionResult<VendaDto> AddVenda(AdicionarVendaDto vendaDto) {
 
+            // buscar ultimo registro para calcular novo ID ao vendedor
             var ultimoRegistroDeVenda = _repository.GetVendas().Last().AsDto();
 
             Venda newVenda =
@@ -70,15 +71,9 @@ namespace tech_test_payment_api.Controllers {
                         Telefone = vendaDto.Vendedor.Telefone
                     },
                     DataVenda = DateTime.Today,
-                    Produtos = new List<Produto>() {
-                        new Produto {
-                            Descricao = vendaDto.Produtos[0].Descricao,
-                            QuantVenda = vendaDto.Produtos[0].QuantVenda,
-                            PrecoUnitario = vendaDto.Produtos[0].PrecoUnitario
-                        }
-                    }
-
+                    Produtos = vendaDto.Produtos
                 };
+
             _repository.AdicionarVenda(newVenda);
             return CreatedAtAction(nameof(GetVenda), new { IdVenda = newVenda.IdVenda }, newVenda.AsDto());
         }
@@ -92,7 +87,9 @@ namespace tech_test_payment_api.Controllers {
                 return NotFound();
             }
 
-            // Atualizar status de acordo com status atual
+            /* Atualizar status de acordo com a condição de status atual
+             * usando switch para evitar entrar em cada condição if
+             */
             switch(vendaIndex.Status.ToLower()) {
 
             case "aguardando pagamento":
