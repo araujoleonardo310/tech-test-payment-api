@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using tech_test_payment_api.Models;
 
 namespace tech_test_payment_api.Dtos {
-    public class AtualizarVendaDto {
+	public class AtualizarVendaDto {
         [Required(ErrorMessage ="Status de venda é obrigatório.")]
         public string Status { get; set; }
     }

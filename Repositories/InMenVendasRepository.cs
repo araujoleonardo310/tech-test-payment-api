@@ -130,15 +130,23 @@ namespace tech_test_payment_api.Repositories {
             vendas.Add(venda);
         }
 
+        // PUT/vendas/status/status
         public void AtualizarStatusVenda(Venda newStatusVenda) {
             var vendaIndex = vendas.FindIndex(v => v.IdVenda == newStatusVenda.IdVenda);
             vendas[vendaIndex] = newStatusVenda;
         }
 
+        // DELETE/vendas/{idVenda}
         public void DeletarVenda(Guid IdVenda) {
             var vendaIndex = vendas.FindIndex(v => v.IdVenda == IdVenda);
             vendas.RemoveAt(vendaIndex);
 
+        }
+
+        // PUT/vendas/{idVenda}
+        public void AtualizarProdutos(Venda newVenda) {
+            var vendaIndex = vendas.FindIndex(v => v.IdVenda == newVenda.IdVenda);
+            vendas[vendaIndex] = newVenda;
         }
     }
 }
