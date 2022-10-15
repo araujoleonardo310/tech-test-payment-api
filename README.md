@@ -124,6 +124,8 @@
 
   5. De: `Enviado para Transportador`. Para: `Entregue`
 
+  6. Status: `Cancelada` não permite sua alteração
+
 #### Atualizar produtos de uma venda
 
 - Produtos:
