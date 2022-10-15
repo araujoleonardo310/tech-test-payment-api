@@ -56,7 +56,7 @@
 - Em seu terminal abra na pasta raiz do projeto
   (tech-test-payment-api)
 
-- Digite o command para copilar e API abrir em seu navegador:
+- Digite o command para compilar e a API abrir no seu navegador:
 
       dotnet watch run
 
@@ -135,7 +135,7 @@
 - Produtos:
   - Se descrição for válida (não nulo, vazio, espaço)
   - Se quantidade de produtos for 1 ou menor ou igual a 100
-  - Se preço for R$0.50 ou menor igual a R$50000.00
+  - Se preço for R$0.50 ou menor igual a R$50.000,00
 
 #### Atualizar vendedor de uma venda
 
