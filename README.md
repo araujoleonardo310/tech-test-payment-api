@@ -96,15 +96,15 @@
 #### Adicionar nova venda
 
 - Vendedor:
-- Se nome for válido (não nulo, vazio, espaço)
-- Se o CPF for válido
-- Se e-mail for válido
-- Se telefone for válido (criar lógica)
+  - Se nome for válido (não nulo, vazio, espaço)
+  - Se o CPF for válido
+  - Se e-mail for válido
+  - Se telefone for válido (criar lógica)
 
 - Produtos:
-- Se quantidade de produtos for 1 ou menor igual a 100
-- Se descrição for válida (não nulo, vazio, espaço)
-- Se preço for R$0.50 ou menor igual a R$5000.00
+  - Se quantidade de produtos for 1 ou menor igual a 100
+  - Se descrição for válida (não nulo, vazio, espaço)
+  - Se preço for R$0.50 ou menor igual a R$5000.00
 
 #### Atualizar status de uma venda
 
