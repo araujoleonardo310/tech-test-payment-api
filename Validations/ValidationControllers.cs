@@ -29,7 +29,7 @@ namespace tech_test_payment_api.Validations {
         }
 
         public static bool IsAguardandoPag(Venda venda) {
-            if(String.Equals(venda.Status, "Aguardando pagamento", StringComparison.InvariantCultureIgnoreCase)
+            if(String.Equals(venda.Status, "aguardando pagamento", StringComparison.InvariantCultureIgnoreCase)
                 )
                 return true;
 
@@ -39,9 +39,9 @@ namespace tech_test_payment_api.Validations {
 
         // Validar se venda pode alterar status para "pag... aprovado" ou "cancelada"
         public static bool IsAguardandoPag(Venda venda, string msgStatus) {
-            if(String.Equals(venda.Status, "Aguardando pagamento", StringComparison.InvariantCultureIgnoreCase) &&
-                (String.Equals(msgStatus, "Pagamento Aprovado", StringComparison.InvariantCultureIgnoreCase)
-                || String.Equals(msgStatus, "Cancelada", StringComparison.InvariantCultureIgnoreCase)))
+            if(String.Equals(venda.Status, "aguardando pagamento", StringComparison.InvariantCultureIgnoreCase) &&
+                (String.Equals(msgStatus, "pagamento aprovado", StringComparison.InvariantCultureIgnoreCase)
+                || String.Equals(msgStatus, "cancelada", StringComparison.InvariantCultureIgnoreCase)))
                 return true;
 
             return false;
@@ -49,9 +49,9 @@ namespace tech_test_payment_api.Validations {
 
         // Validar se venda pode alterar status para "Envia... trans" ou "cancelada"
         public static bool IsPagAprovado(Venda venda, string msgStatus) {
-            if(String.Equals(venda.Status, "Pagamento Aprovado", StringComparison.InvariantCultureIgnoreCase) &&
-                (String.Equals(msgStatus, "Enviado para Transportadora", StringComparison.InvariantCultureIgnoreCase)
-                || String.Equals(msgStatus, "Cancelada", StringComparison.InvariantCultureIgnoreCase))) {
+            if(String.Equals(venda.Status, "pagamento aprovado", StringComparison.InvariantCultureIgnoreCase) &&
+                (String.Equals(msgStatus, "enviado para transportadora", StringComparison.InvariantCultureIgnoreCase)
+                || String.Equals(msgStatus, "cancelada", StringComparison.InvariantCultureIgnoreCase))) {
 
                 return true;
 
@@ -62,16 +62,16 @@ namespace tech_test_payment_api.Validations {
 
         // Validar se venda pode alterar status para "entregue"
         public static bool IsEnviadoTransp(Venda venda, string msgStatus) {
-            if(String.Equals(venda.Status, "Enviado para Transportador", StringComparison.InvariantCultureIgnoreCase) &&
-                String.Equals(msgStatus, "Entregue", StringComparison.InvariantCultureIgnoreCase)
+            if(String.Equals(venda.Status, "enviado para transportadora", StringComparison.InvariantCultureIgnoreCase) &&
+                String.Equals(msgStatus, "entregue", StringComparison.InvariantCultureIgnoreCase)
                 )
                 return true;
 
             return false;
         }
 
-        public static bool IsCancelado(Venda venda) {
-            if(String.Equals(venda.Status, "Cancelado", StringComparison.InvariantCultureIgnoreCase)
+        public static bool IsDeleteVenda(Venda venda) {
+            if(String.Equals(venda.Status, "cancelada", StringComparison.InvariantCultureIgnoreCase) || String.Equals(venda.Status, "aguardando pagamento", StringComparison.InvariantCultureIgnoreCase)
                 )
                 return true;
 

@@ -11,7 +11,7 @@ namespace tech_test_payment_api.Repositories {
             new Venda {
                 IdVenda = 1,
                 IdPedido = Guid.NewGuid(),
-                Status = "Aguardando pagamento",
+                Status = "aguardando pagamento",
                 Vendedor = new() {
                     Id = 1,
                     Nome = "Mariana",
@@ -36,7 +36,7 @@ namespace tech_test_payment_api.Repositories {
             new Venda {
                 IdVenda = 2,
                 IdPedido = Guid.NewGuid(),
-                Status = "Aguardando pagamento",
+                Status = "aguardando pagamento",
                 Vendedor = new() {
                     Id = 2,
                     Nome = "Carlos",
@@ -66,7 +66,7 @@ namespace tech_test_payment_api.Repositories {
             new Venda {
                 IdVenda = 3,
                 IdPedido = Guid.NewGuid(),
-                Status = "Aguardando pagamento",
+                Status = "aguardando pagamento",
                 Vendedor = new() {
                     Id = 3,
                     Nome = "Pedro",
@@ -91,7 +91,7 @@ namespace tech_test_payment_api.Repositories {
             new Venda {
                 IdVenda = 4,
                 IdPedido = Guid.NewGuid(),
-                Status = "Aguardando pagamento",
+                Status = "aguardando pagamento",
                 Vendedor = new() {
                     Id = 4,
                     Nome = "Leo",

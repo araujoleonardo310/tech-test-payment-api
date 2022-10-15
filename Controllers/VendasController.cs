@@ -40,6 +40,7 @@ namespace tech_test_payment_api.Controllers {
             var venda = _repository.GetVenda(idVenda);
 
             if(venda is null) {
+
                 return NotFound();
             }
 
@@ -111,10 +112,10 @@ namespace tech_test_payment_api.Controllers {
         /// Atualiza status de uma venda.
         /// </summary>
         /// <param name="idVenda"></param>
-        /// <param name="newStatusVenda"></param>
+        /// <param name="updateVendaStatus"></param>
         /// <returns>string de status Http</returns>
         [HttpPut("venda/atualizar-status/{idVenda}")]
-        public ActionResult AtualizarStatus(int idVenda, AtualizarVendaDto newStatusVenda) {
+        public ActionResult AtualizarStatus(int idVenda, AtualizarVendaDto updateVendaStatus) {
 
             var vendaIndex = _repository.GetVenda(idVenda);
 
@@ -122,9 +123,9 @@ namespace tech_test_payment_api.Controllers {
                 return NotFound();
             }
 
-            var httpResp = Content($"Venda {idVenda} atualizada com sucesso.");
-            httpResp.StatusCode = 200;
-
+           
+            var httpResp = Content($"Venda {idVenda} não atualizada. Verifique o status atual e tente novamente...");
+            httpResp.StatusCode = 400;
 
             /* Atualizar status de acordo com a condição de status atual
              * o switch evita entrar em cada condição if
@@ -133,40 +134,55 @@ namespace tech_test_payment_api.Controllers {
 
             case "aguardando pagamento":
 
-                if(ValidationControllers.IsAguardandoPag(vendaIndex, newStatusVenda.Status)) {
+                if(ValidationControllers.IsAguardandoPag(vendaIndex, updateVendaStatus.Status)) {
                     Venda updateVenda = vendaIndex with {
-                        Status = newStatusVenda.Status.ToLower()
+                        Status = updateVendaStatus.Status.ToLower()
                     };
                     _repository.AtualizarStatusVenda(updateVenda);
+                    httpResp = Content($"Venda {idVenda} atualizada com sucesso.");
+                    httpResp.StatusCode = 200;
                 }
 
                 break;
 
             case "pagamento aprovado":
-                if(ValidationControllers.IsPagAprovado(vendaIndex, newStatusVenda.Status)) {
+                if(ValidationControllers.IsPagAprovado(vendaIndex, updateVendaStatus.Status)) {
                     Venda updateVenda = vendaIndex with {
-                        Status = newStatusVenda.Status.ToLower()
+                        Status = updateVendaStatus.Status.ToLower()
                     };
                     _repository.AtualizarStatusVenda(updateVenda);
+                    httpResp = Content($"Venda {idVenda} atualizada com sucesso.");
+                    httpResp.StatusCode = 200;
 
                 }
 
                 break;
-            case "enviado para transportador":
-                if(ValidationControllers.IsEnviadoTransp(vendaIndex, newStatusVenda.Status)) {
+            case "enviado para transportadora":
+                if(ValidationControllers.IsEnviadoTransp(vendaIndex, updateVendaStatus.Status)) {
                     Venda updateVenda = vendaIndex with {
-                        Status = newStatusVenda.Status.ToLower()
+                        Status = updateVendaStatus.Status.ToLower()
                     };
                     _repository.AtualizarStatusVenda(updateVenda);
+                    httpResp = Content($"Venda {idVenda} atualizada com sucesso.");
+                    httpResp.StatusCode = 200;
 
+                }
+
+                break;
+
+            case "cancelada":
+                if(ValidationControllers.IsDeleteVenda(vendaIndex)) {
+                    
+                    httpResp = Content($"Venda {idVenda} com status: {vendaIndex.Status.ToUpper()}. Não é permitida alteração de status, faça um nova venda.");
+                    httpResp.StatusCode = 500;
                 }
 
                 break;
 
             default:
+
                 break;
             }
-
 
             return httpResp;
         }
@@ -260,7 +276,7 @@ namespace tech_test_payment_api.Controllers {
             var httpResp = Content($"Venda {idVenda} deletada com sucesso.");
             httpResp.StatusCode = 200;
 
-            if(!ValidationControllers.IsCancelado(vendaIndex)) {
+            if(!ValidationControllers.IsDeleteVenda(vendaIndex)) {
                 httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
                 httpResp.StatusCode = 500;
 
