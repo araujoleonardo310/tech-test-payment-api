@@ -85,16 +85,23 @@ namespace tech_test_payment_api.Controllers {
                 return httpResp;
             }
 
-            // buscar ultimo registro para calcular novo ID ao vendedor
-            var ultimoRegistroDeVenda = _repository.GetVendas().Last().AsDto();
+            // buscar último registro para calcular novo ID ao vendedor
+            int countID = 1;
+            var ultimoRegistroDeVenda = _repository.GetVendas().LastOrDefault();
+
+            // caso possua registro, o Id é somado para gerar o próx
+            if(!(ultimoRegistroDeVenda is null)) {
+                ultimoRegistroDeVenda.AsDto();
+                countID = ultimoRegistroDeVenda.IdVenda + 1;
+            }
 
             Venda newVenda =
                 new() {
-                    IdVenda = ultimoRegistroDeVenda.IdVenda + 1,
+                    IdVenda = countID,
                     IdPedido = Guid.NewGuid(),
                     Status = "aguardando pagamento",
                     Vendedor = new() {
-                        Id = ultimoRegistroDeVenda.Vendedor.Id + 1,
+                        Id = countID + 10,
                         Nome = vendaDto.Vendedor.Nome,
                         Cpf = vendaDto.Vendedor.Cpf,
                         Email = vendaDto.Vendedor.Email,
