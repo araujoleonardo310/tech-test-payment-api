@@ -128,12 +128,20 @@
 
 #### Atualizar produtos de uma venda
 
+- Venda:
+
+  - Se Status atual for **"Aguardando Pagamento"**
+
 - Produtos:
   - Se descrição for válida (não nulo, vazio, espaço)
   - Se quantidade de produtos for 1 ou menor ou igual a 100
   - Se preço for R$0.50 ou menor igual a R$50000.00
 
 #### Atualizar vendedor de uma venda
+
+- Venda:
+
+  - Se Status atual for **"Aguardando Pagamento"**
 
 - Vendedor:
   - Se nome for válido (não nulo, vazio, espaço)
@@ -145,7 +153,7 @@
 
 - Regras para remoção:
 
-  - Status em “Aguardando pagamento” ou “Cancelada”
+  - Se Status for **Aguardando pagamento** ou **"Cancelada”**
 
 ## <span id="referencias">Referências</span>
 
