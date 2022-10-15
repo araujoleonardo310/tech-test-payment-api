@@ -6,6 +6,7 @@ using tech_test_payment_api.Models;
 namespace tech_test_payment_api.Repositories {
     public class InMenVendasRepository : IVendasRepository {
 
+        // start json preenchido com exemplos de vendas
         private readonly List<Venda> vendas = new()
             {
             new Venda {
@@ -136,12 +137,6 @@ namespace tech_test_payment_api.Repositories {
             vendas[vendaIndex] = newStatusVenda;
         }
 
-        // DELETE/vendas/{idVenda}
-        public void DeletarVenda(int idVenda) {
-            var vendaIndex = vendas.FindIndex(v => v.IdVenda == idVenda);
-            vendas.RemoveAt(vendaIndex);
-        }
-
         // PUT/vendas/Produtos/{idVenda}
         public void AtualizarProdutos(Venda newVenda) {
             var vendaIndex = vendas.FindIndex(v => v.IdVenda == newVenda.IdVenda);
@@ -152,6 +147,12 @@ namespace tech_test_payment_api.Repositories {
         public void AtualizarVendedor(Venda venda) {
             var vendaIndex = vendas.FindIndex(v => v.IdVenda == venda.IdVenda);
             vendas[vendaIndex] = venda;
+        }
+
+        // DELETE/vendas/{idVenda}
+        public void DeletarVenda(int idVenda) {
+            var vendaIndex = vendas.FindIndex(v => v.IdVenda == idVenda);
+            vendas.RemoveAt(vendaIndex);
         }
     }
 }
