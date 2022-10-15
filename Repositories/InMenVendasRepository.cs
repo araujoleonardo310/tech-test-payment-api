@@ -9,7 +9,7 @@ namespace tech_test_payment_api.Repositories {
         private readonly List<Venda> vendas = new()
             {
             new Venda {
-                IdVenda = Guid.NewGuid(),
+                IdVenda = 1,
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
@@ -34,7 +34,7 @@ namespace tech_test_payment_api.Repositories {
                 }
             },
             new Venda {
-                IdVenda = Guid.NewGuid(),
+                IdVenda = 2,
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
@@ -64,7 +64,7 @@ namespace tech_test_payment_api.Repositories {
                 }
             },
             new Venda {
-                IdVenda = Guid.NewGuid(),
+                IdVenda = 3,
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
@@ -89,7 +89,7 @@ namespace tech_test_payment_api.Repositories {
                 }
             },
             new Venda {
-                IdVenda = Guid.NewGuid(),
+                IdVenda = 4,
                 IdPedido = Guid.NewGuid(),
                 Status = "Aguardando pagamento",
                 Vendedor = new() {
@@ -116,13 +116,13 @@ namespace tech_test_payment_api.Repositories {
         }
 
         // GET/vendas/{idVenda}
-        public Venda GetVenda(Guid idVenda) {
+        public Venda GetVenda(int idVenda) {
             return vendas.Where(v => v.IdVenda == idVenda).SingleOrDefault();
         }
 
         // GET/vendas/{status}
         public IEnumerable<Venda> GetVendasPorStatus(string status) {
-            return vendas.Where(v => v.Status == status);
+            return vendas.Where(v => v.Status.ToLower() == status.ToLower());
         }
 
         // POST/vendas/{venda}
@@ -137,8 +137,8 @@ namespace tech_test_payment_api.Repositories {
         }
 
         // DELETE/vendas/{idVenda}
-        public void DeletarVenda(Guid IdVenda) {
-            var vendaIndex = vendas.FindIndex(v => v.IdVenda == IdVenda);
+        public void DeletarVenda(int idVenda) {
+            var vendaIndex = vendas.FindIndex(v => v.IdVenda == idVenda);
             vendas.RemoveAt(vendaIndex);
         }
 

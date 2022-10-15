@@ -35,13 +35,15 @@ namespace tech_test_payment_api.Controllers {
         /// <param name="idVenda"></param>
         /// <returns>string de status Http</returns>
         [HttpGet("venda/{idVenda}")]
-        public ActionResult<VendaDto> GetVenda(Guid idVenda) {
-            var venda = _repository.GetVenda(idVenda).AsDto();
+        public ActionResult<VendaDto> GetVenda(int idVenda) {
+
+            var venda = _repository.GetVenda(idVenda);
+
             if(venda is null) {
                 return NotFound();
             }
 
-            return Ok(venda);
+            return Ok(venda.AsDto());
         }
 
         /// <summary>
@@ -65,7 +67,7 @@ namespace tech_test_payment_api.Controllers {
         public ActionResult<VendaDto> AdicionarVenda(AdicionarVendaDto vendaDto) {
 
             var httpResp = Content("");
-            
+
             if(!ValidationControllers.IsValideTelef(vendaDto.Vendedor.Telefone)) {
 
                 httpResp = Content($"Vendedor {vendaDto.Vendedor.Nome} está com Telefone incorreto.");
@@ -87,9 +89,9 @@ namespace tech_test_payment_api.Controllers {
 
             Venda newVenda =
                 new() {
-                    IdVenda = Guid.NewGuid(),
+                    IdVenda = ultimoRegistroDeVenda.IdVenda + 1,
                     IdPedido = Guid.NewGuid(),
-                    Status = "Aguardando pagamento",
+                    Status = "aguardando pagamento",
                     Vendedor = new() {
                         Id = ultimoRegistroDeVenda.Vendedor.Id + 1,
                         Nome = vendaDto.Vendedor.Nome,
@@ -112,7 +114,7 @@ namespace tech_test_payment_api.Controllers {
         /// <param name="newStatusVenda"></param>
         /// <returns>string de status Http</returns>
         [HttpPut("venda/atualizar-status/{idVenda}")]
-        public ActionResult AtualizarStatus(Guid idVenda, AtualizarVendaDto newStatusVenda) {
+        public ActionResult AtualizarStatus(int idVenda, AtualizarVendaDto newStatusVenda) {
 
             var vendaIndex = _repository.GetVenda(idVenda);
 
@@ -123,9 +125,9 @@ namespace tech_test_payment_api.Controllers {
             var httpResp = Content($"Venda {idVenda} atualizada com sucesso.");
             httpResp.StatusCode = 200;
 
-            
+
             /* Atualizar status de acordo com a condição de status atual
-             * usando switch para evitar entrar em cada condição if
+             * o switch evita entrar em cada condição if
              */
             switch(vendaIndex.Status.ToLower()) {
 
@@ -133,7 +135,7 @@ namespace tech_test_payment_api.Controllers {
 
                 if(ValidationControllers.IsAguardandoPag(vendaIndex, newStatusVenda.Status)) {
                     Venda updateVenda = vendaIndex with {
-                        Status = newStatusVenda.Status
+                        Status = newStatusVenda.Status.ToLower()
                     };
                     _repository.AtualizarStatusVenda(updateVenda);
                 }
@@ -143,7 +145,7 @@ namespace tech_test_payment_api.Controllers {
             case "pagamento aprovado":
                 if(ValidationControllers.IsPagAprovado(vendaIndex, newStatusVenda.Status)) {
                     Venda updateVenda = vendaIndex with {
-                        Status = newStatusVenda.Status
+                        Status = newStatusVenda.Status.ToLower()
                     };
                     _repository.AtualizarStatusVenda(updateVenda);
 
@@ -153,7 +155,7 @@ namespace tech_test_payment_api.Controllers {
             case "enviado para transportador":
                 if(ValidationControllers.IsEnviadoTransp(vendaIndex, newStatusVenda.Status)) {
                     Venda updateVenda = vendaIndex with {
-                        Status = newStatusVenda.Status
+                        Status = newStatusVenda.Status.ToLower()
                     };
                     _repository.AtualizarStatusVenda(updateVenda);
 
@@ -176,7 +178,7 @@ namespace tech_test_payment_api.Controllers {
         /// <param name="newProdutos"></param>
         /// <returns>string de status Http</returns>
         [HttpPut("venda/atualizar-produtos/{idVenda}")]
-        public ActionResult AtualizarProdutos(Guid idVenda, AtualizarProdutosDto newProdutos) {
+        public ActionResult AtualizarProdutos(int idVenda, AtualizarProdutosDto newProdutos) {
             var vendaIndex = _repository.GetVenda(idVenda);
 
             if(vendaIndex is null) {
@@ -210,7 +212,7 @@ namespace tech_test_payment_api.Controllers {
         /// <param name="vendedorDto"></param>
         /// <returns>string de status Http</returns>
         [HttpPut("venda/atualizar-vendedor/{idVenda}")]
-        public ActionResult AtualizarVendedor(Guid idVenda, AtualizarVendedorDto vendedorDto) {
+        public ActionResult AtualizarVendedor(int idVenda, AtualizarVendedorDto vendedorDto) {
             var vendaIndex = _repository.GetVenda(idVenda);
 
             if(vendaIndex is null) {
@@ -218,7 +220,7 @@ namespace tech_test_payment_api.Controllers {
             }
             var httpResp = Content($"Produtos de Venda {idVenda} atualizados com sucesso.");
 
-            
+
             if(!ValidationControllers.IsValideCPF(vendedorDto.vendedor.Cpf)) {
                 httpResp = Content($"Vendedor {vendedorDto.vendedor.Nome} está com CPF incorreto.");
                 httpResp.StatusCode = 400;
@@ -249,7 +251,7 @@ namespace tech_test_payment_api.Controllers {
         /// <param name="idVenda"></param>
         /// <returns>string de status Http</returns>
         [HttpDelete("venda/deletar-venda/{idVenda}")]
-        public ActionResult<Venda> DeletarVenda(Guid idVenda) {
+        public ActionResult<Venda> DeletarVenda(int idVenda) {
             var vendaIndex = _repository.GetVenda(idVenda);
             if(vendaIndex is null) {
                 return NotFound();

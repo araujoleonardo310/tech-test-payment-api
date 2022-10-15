@@ -7,7 +7,7 @@ using tech_test_payment_api.Models;
 
 namespace tech_test_payment_api.Dtos {
     public record VendaDto {
-        public Guid IdVenda { get; init; }
+        public int IdVenda { get; set; }
         public Guid IdPedido { get; init; }
         public string Status { get; set; }
         public Vendedor Vendedor { get; set; }

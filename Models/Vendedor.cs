@@ -2,6 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace tech_test_payment_api.Models {
     public class Vendedor {
+
+        [Required]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "O nome é obrigatório.")]
