@@ -10,7 +10,7 @@ namespace tech_test_payment_api.Models {
         public string Descricao { get; set; }
 
         [Required(ErrorMessage = "Quantidade de venda é obrigatório.")]
-        [Range(1, 100, ErrorMessage = $"Quantidade de venda deverá ser 1 ou menor igual a 100")]
+        [Range(1, 100, ErrorMessage = "Quantidade de venda deverá ser 1 ou menor igual a 100")]
         public int QuantVenda { get; set; }
 
         [Required(ErrorMessage = "Preço Unitário é obrigatório.")]

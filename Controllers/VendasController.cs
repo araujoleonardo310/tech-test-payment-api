@@ -239,6 +239,14 @@ namespace tech_test_payment_api.Controllers {
             var httpResp = Content($"Produtos de Venda {idVenda} atualizados com sucesso.");
             httpResp.StatusCode = 200;
 
+            if(!ValidationControllers.IsAguardandoPag(vendaIndex)) {
+
+                httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
+                httpResp.StatusCode = 500;
+
+                return httpResp;
+            }
+
 
             if(!ValidationControllers.IsValideCPF(vendedorDto.vendedor.Cpf)) {
 
@@ -249,11 +257,10 @@ namespace tech_test_payment_api.Controllers {
                 return httpResp;
             }
 
+            if(!ValidationControllers.IsValideTelef(vendedorDto.vendedor.Telefone)) {
+                httpResp = Content($"Vendedor {vendedorDto.vendedor.Nome} está com Telefone incorreto.");
 
-            if(!ValidationControllers.IsAguardandoPag(vendaIndex)) {
-
-                httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
-                httpResp.StatusCode = 500;
+                httpResp.StatusCode = 400;
 
                 return httpResp;
             }
