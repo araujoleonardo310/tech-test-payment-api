@@ -1,6 +1,16 @@
 ## Resolução do desafio de teste técnico Pottencial Tech-Test-Payment-API
 
-### O TESTE
+<div align="center>
+
+<a href="#teste">Teste</a>&nbsp;&nbsp;&nbsp;
+<a href="#projeto">O projeto</a>&nbsp;&nbsp;&nbsp;
+<a href="#instrucoes">Instalação & Instruções</a>&nbsp;&nbsp;&nbsp;
+<a href="#regra-negocio">Regras de negócios</a>&nbsp;&nbsp;&nbsp;
+<a href="#referencias">Referências</a>&nbsp;&nbsp;&nbsp;
+
+</div>
+
+## <span id="teste">O TESTE</span>
 
 - Construir uma API REST utilizando .Net Core, Java ou NodeJs (com Typescript);
 - A API deve expor uma rota com documentação swagger (http://.../api-docs).
@@ -21,41 +31,62 @@
 - A API não precisa ter mecanismos de autenticação/autorização;
 - A aplicação não precisa implementar os mecanismos de persistência em um banco de dados, eles podem ser persistidos "em memória".
 
+## <span id="projeto">O projeto</span>
 
-## O projeto
-![Projeto](./About-project/prints/projeto.png)
+### API Swagger
 
-## Instruções para instalar e rodar o projeto
+![API Swagger](./About-project/prints/projeto.png)
+
+### Visualização em JSON
+
+![JSON](./About-project/prints/json.png)
+
+## <span id="instrucoes">Instruções para instalar e rodar o projeto</span>
+
+#### Dependências & Libs Necessárias
+
+- . Donet 5
+
+- .NET SDKs 5.0.408
+
+#### Como rodar a API
+
 - Faça clone
-- Em seu terminal abra na pasta raiz do projeto (tech-test-payment-api)
-- Digite o command:
 
-      dotnet run
+- Em seu terminal abra na pasta raiz do projeto
+  (tech-test-payment-api)
 
-   exemplo:
+- Digite o command para copilar e API abrir em seu navegador:
 
-   ![exemplo de comando](./About-project/prints/comands1.PNG)
+      dotnet watch run
 
-- Em seu navegador digite a URL
+  Exemplo:
+
+  ![exemplo de comando](./About-project/prints/comands1.PNG)
+
+> Caso seu navegador não abra a API, você pode digitar a URL
 
       https://localhost:5001/swagger/index.html
 
-
-## Regra de negócio implementada ao desafio
+## <span id="regra-negocio">Regras de negócio implementadas ao desafio</span>
 
 ### Classes desenvolvidas
+
 ![Venda](./About-project/prints/diagrama-venda.PNG)
 
 ![Vendedor](./About-project/prints/diagrama-vendedor.PNG)
 
 ![Produto](./About-project/prints/diagrama-produto.PNG)
 
+### Endpoints desenvolvidos
 
-### Endpoints
+![Endpoints](./About-project/prints/endpoints.png)
 
 #### Buscar vendas
 
 #### Buscar venda por IdVenda
+
+- Se for número inteiro
 
 #### Buscar vendas por Status
 
@@ -112,10 +143,14 @@
 
 - Regras para remoção:
 
-  -  Status em “Aguardando pagamento” ou “Cancelada”
+  - Status em “Aguardando pagamento” ou “Cancelada”
 
-## Dependências & Libs Necessárias
+## <span id="referencias">Referências</span>
 
-. Donet 5
+- [.NET 5 REST API Tutorial - Build From Scratch With C#](https://youtu.be/ZXdFisA_hOY)
 
-.NET SDKs 5.0.408
+- [A importância e o uso do Data Annotation](https://imasters.com.br/dotnet/importancia-e-o-uso-data-annotation)
+
+- [Regex em C#: como utilizar expressões regulares](https://www.alura.com.br/artigos/regex-c-sharp-utilizar-expressoes-regulares?gclid=CjwKCAjwkaSaBhA4EiwALBgQaBmyi6EbjSnPaSVUa0BewlrjU5WPHkviv_VOC-zcTPPWD5w9xnD-PRoCe9gQAvD_BwE)
+
+- [Expressão regular para validar um campo que aceita CPF ou CNPJ](https://pt.stackoverflow.com/questions/11045/express%C3%A3o-regular-para-validar-um-campo-que-aceita-cpf-ou-cnpj)
