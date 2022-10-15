@@ -205,6 +205,7 @@ namespace tech_test_payment_api.Controllers {
             httpResp.StatusCode = 200;
 
             if(!ValidationControllers.IsAguardandoPag(vendaIndex)) {
+
                 httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
                 httpResp.StatusCode = 500;
 
@@ -214,9 +215,8 @@ namespace tech_test_payment_api.Controllers {
             Venda vendaProdutos = vendaIndex with {
                 Produtos = newProdutos.Produtos
             };
+
             _repository.AtualizarStatusVenda(vendaProdutos);
-
-
 
             return httpResp;
         }
@@ -229,24 +229,29 @@ namespace tech_test_payment_api.Controllers {
         /// <returns>string de status Http</returns>
         [HttpPut("venda/atualizar-vendedor/{idVenda}")]
         public ActionResult AtualizarVendedor(int idVenda, AtualizarVendedorDto vendedorDto) {
+
             var vendaIndex = _repository.GetVenda(idVenda);
 
             if(vendaIndex is null) {
                 return NotFound();
             }
+
             var httpResp = Content($"Produtos de Venda {idVenda} atualizados com sucesso.");
+            httpResp.StatusCode = 200;
 
 
             if(!ValidationControllers.IsValideCPF(vendedorDto.vendedor.Cpf)) {
+
                 httpResp = Content($"Vendedor {vendedorDto.vendedor.Nome} está com CPF incorreto.");
+
                 httpResp.StatusCode = 400;
 
                 return httpResp;
             }
 
-            httpResp.StatusCode = 200;
 
             if(!ValidationControllers.IsAguardandoPag(vendaIndex)) {
+
                 httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
                 httpResp.StatusCode = 500;
 
@@ -256,6 +261,7 @@ namespace tech_test_payment_api.Controllers {
             Venda vendaProdutos = vendaIndex with {
                 Vendedor = vendedorDto.vendedor
             };
+
             _repository.AtualizarStatusVenda(vendaProdutos);
 
             return httpResp;

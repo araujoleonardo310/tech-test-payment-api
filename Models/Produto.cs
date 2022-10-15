@@ -10,11 +10,11 @@ namespace tech_test_payment_api.Models {
         public string Descricao { get; set; }
 
         [Required(ErrorMessage = "Quantidade de venda é obrigatório.")]
-        [Range(1, 100, ErrorMessage = "Quantidade de venda deverá ser 1 ou menor ou igual a 100")]
+        [Range(1, 100, ErrorMessage = $"Quantidade de venda deverá ser 1 ou menor igual a 100")]
         public int QuantVenda { get; set; }
 
         [Required(ErrorMessage = "Preço Unitário é obrigatório.")]
-        [Range(0.50, 50000, ErrorMessage = "O preço deverá ser entre R$0.50 e R$50000.00")]
+        [Range(0.50, 50000, ErrorMessage = "O preço deverá ser entre R$0.50 e R$50.000,00")]
         public decimal PrecoUnitario { get; set; }
     }
 }
