@@ -4,9 +4,9 @@ namespace tech_test_payment_api.Models {
     public class Vendedor {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "O nome completo é obrigatório.")]
+        [Required(ErrorMessage = "O nome é obrigatório.")]
         [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage =
-             "Números e caracteres especiais não são permitidos no nome.")]
+             "Números e caracteres especiais não são permitidos.")]
         public string Nome { get; set; }
 
         [Required]

@@ -40,6 +40,7 @@ namespace tech_test_payment_api.Controllers {
             if(venda is null) {
                 return NotFound();
             }
+
             return Ok(venda);
         }
 
@@ -50,6 +51,7 @@ namespace tech_test_payment_api.Controllers {
         /// <returns>string de status Http</returns>
         [HttpGet("vendas-status/{status}")]
         public IEnumerable<Venda> GetVendaStatus(string status) {
+
             var vendas = _repository.GetVendasPorStatus(status);
             return vendas;
         }
@@ -62,9 +64,19 @@ namespace tech_test_payment_api.Controllers {
         [HttpPost("venda/adicionar")]
         public ActionResult<VendaDto> AdicionarVenda(AdicionarVendaDto vendaDto) {
 
-            if(!ValidationCPF.IsCPFValido(vendaDto.Vendedor.Cpf)) {
+            var httpResp = Content("");
+            
+            if(!ValidationControllers.IsValideTelef(vendaDto.Vendedor.Telefone)) {
 
-                var httpResp = Content($"Vendedor {vendaDto.Vendedor.Nome} está com CPF incorreto.");
+                httpResp = Content($"Vendedor {vendaDto.Vendedor.Nome} está com Telefone incorreto.");
+                httpResp.StatusCode = 400;
+
+                return httpResp;
+            }
+
+            if(!ValidationControllers.IsValideCPF(vendaDto.Vendedor.Cpf)) {
+
+                httpResp = Content($"Vendedor {vendaDto.Vendedor.Nome} está com CPF incorreto.");
                 httpResp.StatusCode = 400;
 
                 return httpResp;
@@ -99,7 +111,7 @@ namespace tech_test_payment_api.Controllers {
         /// <param name="idVenda"></param>
         /// <param name="newStatusVenda"></param>
         /// <returns>string de status Http</returns>
-        [HttpPut("venda/atualizar-status/{idVenda}")]        
+        [HttpPut("venda/atualizar-status/{idVenda}")]
         public ActionResult AtualizarStatus(Guid idVenda, AtualizarVendaDto newStatusVenda) {
 
             var vendaIndex = _repository.GetVenda(idVenda);
@@ -108,6 +120,10 @@ namespace tech_test_payment_api.Controllers {
                 return NotFound();
             }
 
+            var httpResp = Content($"Venda {idVenda} atualizada com sucesso.");
+            httpResp.StatusCode = 200;
+
+            
             /* Atualizar status de acordo com a condição de status atual
              * usando switch para evitar entrar em cada condição if
              */
@@ -115,7 +131,7 @@ namespace tech_test_payment_api.Controllers {
 
             case "aguardando pagamento":
 
-                if(ValidationStatus.IsAguardandoPag(vendaIndex, newStatusVenda.Status)) {
+                if(ValidationControllers.IsAguardandoPag(vendaIndex, newStatusVenda.Status)) {
                     Venda updateVenda = vendaIndex with {
                         Status = newStatusVenda.Status
                     };
@@ -125,7 +141,7 @@ namespace tech_test_payment_api.Controllers {
                 break;
 
             case "pagamento aprovado":
-                if(ValidationStatus.IsPagAprovado(vendaIndex, newStatusVenda.Status)) {
+                if(ValidationControllers.IsPagAprovado(vendaIndex, newStatusVenda.Status)) {
                     Venda updateVenda = vendaIndex with {
                         Status = newStatusVenda.Status
                     };
@@ -135,7 +151,7 @@ namespace tech_test_payment_api.Controllers {
 
                 break;
             case "enviado para transportador":
-                if(ValidationStatus.IsEnviadoTransp(vendaIndex, newStatusVenda.Status)) {
+                if(ValidationControllers.IsEnviadoTransp(vendaIndex, newStatusVenda.Status)) {
                     Venda updateVenda = vendaIndex with {
                         Status = newStatusVenda.Status
                     };
@@ -149,8 +165,6 @@ namespace tech_test_payment_api.Controllers {
                 break;
             }
 
-            var httpResp = Content($"Venda {idVenda} atualizada com sucesso.");
-            httpResp.StatusCode = 200;
 
             return httpResp;
         }
@@ -172,7 +186,7 @@ namespace tech_test_payment_api.Controllers {
             var httpResp = Content($"Produtos de Venda {idVenda} atualizados com sucesso.");
             httpResp.StatusCode = 200;
 
-            if(!ValidationProdutos.IsAguardandoPag(vendaIndex)) {
+            if(!ValidationControllers.IsAguardandoPag(vendaIndex)) {
                 httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
                 httpResp.StatusCode = 500;
 
@@ -204,7 +218,8 @@ namespace tech_test_payment_api.Controllers {
             }
             var httpResp = Content($"Produtos de Venda {idVenda} atualizados com sucesso.");
 
-            if(!ValidationCPF.IsCPFValido(vendedorDto.vendedor.Cpf)) {
+            
+            if(!ValidationControllers.IsValideCPF(vendedorDto.vendedor.Cpf)) {
                 httpResp = Content($"Vendedor {vendedorDto.vendedor.Nome} está com CPF incorreto.");
                 httpResp.StatusCode = 400;
 
@@ -213,7 +228,7 @@ namespace tech_test_payment_api.Controllers {
 
             httpResp.StatusCode = 200;
 
-            if(!ValidationProdutos.IsAguardandoPag(vendaIndex)) {
+            if(!ValidationControllers.IsAguardandoPag(vendaIndex)) {
                 httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
                 httpResp.StatusCode = 500;
 
@@ -243,7 +258,7 @@ namespace tech_test_payment_api.Controllers {
             var httpResp = Content($"Venda {idVenda} deletada com sucesso.");
             httpResp.StatusCode = 200;
 
-            if(!ValidationStatus.IsCancelado(vendaIndex)) {
+            if(!ValidationControllers.IsCancelado(vendaIndex)) {
                 httpResp = Content($"Não permitido. Venda com status: {vendaIndex.Status}");
                 httpResp.StatusCode = 500;
 
