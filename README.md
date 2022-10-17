@@ -45,7 +45,7 @@
 
 #### Dependências & Libs Necessárias
 
-- . Donet 5
+- . Dotnet 5
 
 - .NET SDKs 5.0.408
 
